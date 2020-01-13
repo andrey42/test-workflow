@@ -1,0 +1,36 @@
+name: test artifacts jobs
+on: [push]
+jobs:
+  build:
+    name: Building packages
+    runs-on: ubuntu-18.04
+    steps:
+      - name: create artifacts
+        shell: bash
+        run: |
+          sudo mkdir -p /work/zfs-localrepo
+          sudo bash -c "echo 'test123' >> /work/zfs-localrepo/test123.txt"
+          sudo bash -c "echo 'test456' >> /work/zfs-localrepo/test456.txt"
+      - uses: actions/upload-artifact@v1
+        with:
+          name: test-pkg1
+          path: /work/zfs-localrepo
+  test:
+    needs: build
+    name: Testing packages
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        testbatch:
+           - 'test123'
+           - 'test456'
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: test-pkg1
+      - name: list artifacts
+        shell: bash
+        run: |
+          ls ./test-pkg1 -alt
+          cat ./test-pkg1/${{ matrix.testbatch }}.txt
+
