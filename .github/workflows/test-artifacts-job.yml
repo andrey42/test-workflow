@@ -1,6 +1,31 @@
 name: test artifacts jobs
 on: [push]
 jobs:
+  deploy:
+    name: Deploying artefacts
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: adding required packages for repo publishing
+        shell: bash
+        run: |
+          sudo bash -c "DEBIAN_FRONTEND=noninteractive && apt-get -yq install apt-get install gnupg aptly"
+      - uses: actions/download-artifact@v1
+        with:
+          name: zfs-deb-packages
+      - name: list packages
+        shell: bash
+        run: |
+          ls ./zfs-deb-packages -alt
+      - name: create repo and add packages
+        shell: bash
+        run: |
+          aptly repo create -distribution="bionic" zfs-backports-experimental
+          sed -i s|"architectures": []|"architectures": ["amd64"]|g  ~/.aptly.conf 
+          cat ~/.aptly.conf
+          echo ${{ secrets.GPG_PASS }} | gpg --batch --import ./apt-private-key.asc
+          ls ./zfs-deb-packages/*.deb -1 | xargs aptly repo add zfs-backports-experimental 
+          aptly publish repo --gpg-key="74191A3222C2FFD5" -passphrase="${{ secrets.GPG_PASS }}" zfs-backports-experimental 
   build:
     name: Building packages
     runs-on: ubuntu-18.04
@@ -33,30 +58,4 @@ jobs:
         run: |
           ls ./test-pkg1 -alt
           cat ./test-pkg1/${{ matrix.testbatch }}.txt
-  deploy:
-    needs: test
-    name: Deploying artefacts
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: adding required packages for repo publishing
-        shell: bash
-        run: |
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install apt-get install gnupg aptly
-      - uses: actions/download-artifact@v1
-        with:
-          name: zfs-deb-packages
-      - name: list packages
-        shell: bash
-        run: |
-          ls ./zfs-deb-packages -alt
-      - name: create repo and add packages
-        shell: bash
-        run: |
-          aptly repo create -distribution="bionic" zfs-backports-experimental
-          sed -i s|"architectures": []|"architectures": ["amd64"]|g  ~/.aptly.conf 
-          cat ~/.aptly.conf
-          echo ${{ secrets.GPG_PASS }} | gpg --batch --import ./apt-private-key.asc
-          ls ./zfs-deb-packages/*.deb -1 | xargs aptly repo add zfs-backports-experimental 
-          aptly publish repo --gpg-key="74191A3222C2FFD5" -passphrase="${{ secrets.GPG_PASS }}" zfs-backports-experimental 
          
