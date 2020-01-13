@@ -22,7 +22,7 @@ jobs:
           ls ./*.deb -1 | xargs aptly repo add zfs-backports-experimental 
           export GPG_TTY=$(tty)
           aptly publish repo --gpg-key="74191A3222C2FFD5" --batch=true --passphrase="${{ secrets.GPG_PASS }}" zfs-backports-experimental 
-          ls ~/.aptly/public/pool/zfs-backports-experimental/z/zfs-linux/ -alt
+          find ~/.aptly -name *.deb
   build:
     name: Building packages
     runs-on: ubuntu-18.04
