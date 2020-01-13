@@ -21,6 +21,9 @@ jobs:
           echo ${{ secrets.GPG_PASS }} | gpg --batch --import ./apt-private-key.asc
           ls ./*.deb -1 | xargs aptly repo add zfs-backports-experimental         
           aptly publish repo --gpg-key="74191A3222C2FFD5" --batch=true --passphrase="${{ secrets.GPG_PASS }}" zfs-backports-experimental 
+      - name: list contents
+        shell: bash
+        run: |     
           aptly repo show -with-packages zfs-backports-experimental
           find /home/runner/.aptly/public -name '*.deb'
   build:
