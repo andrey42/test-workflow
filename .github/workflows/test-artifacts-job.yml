@@ -9,7 +9,7 @@ jobs:
       - name: adding required packages for repo publishing
         shell: bash
         run: |
-          sudo bash -c "echo 'deb http://repo.aptly.info/ squeeze main' >> /etc/apt/sources.list'
+          sudo bash -c "echo 'deb http://repo.aptly.info/ squeeze main' >> /etc/apt/sources.list"
           sudo DEBIAN_FRONTEND=noninteractive apt-key adv --keyserver pool.sks-keyservers.net --recv-keys ED75B5A4483DA07C
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg aptly
