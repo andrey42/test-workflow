@@ -10,13 +10,10 @@ jobs:
         shell: bash
         run: |
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg aptly
-      - uses: actions/download-artifact@v1
-        with:
-          name: zfs-deb-packages
       - name: list packages
         shell: bash
-        run: |
-          ls ./zfs-deb-packages -alt
+        run: |           
+          mkdir ./zfs-deb-packages
       - name: create repo and add packages
         shell: bash
         run: |
