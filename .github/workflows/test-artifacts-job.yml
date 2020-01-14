@@ -35,10 +35,10 @@ jobs:
           ls ./ -alt
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
-          git add .
-          git commit -am "pages repo update for commit"
           git config --global user.email "job@terem.fr"
           git config --global user.name "Andrey Prokopenko"
+          git add .
+          git commit -am "pages repo update for commit"
           git push
 
   build:
