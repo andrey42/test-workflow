@@ -88,7 +88,7 @@ jobs:
       - name: create artifacts
         shell: bash
         run: |
-          mkdir -p ./zfs-localrepo
+          mkdir -p ./zfs-localrepo 
           echo 'test123' >> ./zfs-localrepo/test123.txt
           echo 'test456' >> ./zfs-localrepo/test456.txt
       - name: Cache files
