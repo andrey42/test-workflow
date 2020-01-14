@@ -1,47 +1,6 @@
 name: test artifacts jobs
 on: [push]
 jobs:
-  deploy:
-    name: Deploying artefacts
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-      - name: adding required packages for repo publishing
-        shell: bash
-        run: |
-          sudo bash -c "echo 'deb http://repo.aptly.info/ squeeze main' >> /etc/apt/sources.list"
-          sudo DEBIAN_FRONTEND=noninteractive apt-key adv --keyserver pool.sks-keyservers.net --recv-keys ED75B5A4483DA07C
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg aptly
-      - name: create repo and add packages
-        shell: bash
-        run: |
-          aptly repo create -distribution="bionic" zfs-backports-experimental
-          sed -i 's/\"architectures\": \[\]/\"architectures\": \[\"amd64\"\]/g' ~/.aptly.conf
-          echo -n "${{ secrets.GPG_KEY }}" > ./apt-private-key.asc
-          echo ${{ secrets.GPG_PASS }} | gpg --batch --import ./apt-private-key.asc
-          ls ./*.deb -1 | xargs aptly repo add zfs-backports-experimental         
-          aptly publish repo --gpg-key="74191A3222C2FFD5" --batch=true --passphrase="${{ secrets.GPG_PASS }}" zfs-backports-experimental 
-      - name: list contents
-        shell: bash
-        run: |     
-          aptly repo show -with-packages zfs-backports-experimental
-          find /home/runner/.aptly/public -name '*.deb'
-      - uses: actions/checkout@v2
-        with:
-          ref: gh-pages
-      - name: list contents
-        shell: bash
-        run: |     
-          ls ./ -alt
-          rm ./public -r
-          cp -r /home/runner/.aptly/public ./
-          git config --global user.email "job@terem.fr"
-          git config --global user.name "Andrey Prokopenko"
-          git add .
-          git commit -am "pages repo update for commit"
-          git push
-
   build:
     name: Building packages
     runs-on: ubuntu-18.04
@@ -52,10 +11,11 @@ jobs:
           sudo mkdir -p /work/zfs-localrepo
           sudo bash -c "echo 'test123' >> /work/zfs-localrepo/test123.txt"
           sudo bash -c "echo 'test456' >> /work/zfs-localrepo/test456.txt"
-      - uses: actions/upload-artifact@v1
+      - name: Cache files
+        uses: actions/cache@v1
         with:
-          name: test-pkg1
           path: /work/zfs-localrepo
+          key: ${{ runner.OS }}-zfs-${{ github.sha }}
   test:
     needs: build
     name: Testing packages
@@ -66,9 +26,11 @@ jobs:
            - 'test123'
            - 'test456'
     steps:
-      - uses: actions/download-artifact@v1
+      - name: Restore cached files
+        uses: actions/cache@v1
         with:
-          name: test-pkg1
+          path: /work/zfs-localrepo
+          key: ${{ runner.OS }}-zfs-${{ github.sha }}
       - name: list artifacts
         shell: bash
         run: |
