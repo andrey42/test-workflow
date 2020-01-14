@@ -72,12 +72,9 @@ jobs:
                       if os.path.isdir(folderPath+'/'+file):
                               index_folder(folderPath + '/' + file)
               indexText += indexTextEnd
-              #Create or override previous index.html
               index = open(folderPath+'/index.html', "w")
-              #Save indexed content to file
-              index.write(indexText)           
-          #Indexing root directory (Script position)
-          index_folder('.')
+              index.write(indexText)
+          index_folder('./public')
           END
           git config --global user.email "job@terem.fr"
           git config --global user.name "Andrey Prokopenko"
