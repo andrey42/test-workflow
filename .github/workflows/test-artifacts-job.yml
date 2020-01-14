@@ -18,6 +18,7 @@ jobs:
         run: |
           aptly repo create -distribution="bionic" zfs-backports-experimental
           sed -i 's/\"architectures\": \[\]/\"architectures\": \[\"amd64\"\]/g' ~/.aptly.conf
+          echo -n "${{ secrets.GPG_KEY }}" > ./apt-private-key.asc
           echo ${{ secrets.GPG_PASS }} | gpg --batch --import ./apt-private-key.asc
           ls ./*.deb -1 | xargs aptly repo add zfs-backports-experimental         
           aptly publish repo --gpg-key="74191A3222C2FFD5" --batch=true --passphrase="${{ secrets.GPG_PASS }}" zfs-backports-experimental 
