@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |     
           aptly repo show -with-packages zfs-backports-experimental
-          find /home/runner/.aptly/public -name '*.deb'
+          find /home/runner/.aptly/public -name '*.deb' 
       - uses: actions/checkout@v2
         with:
           ref: gh-pages
