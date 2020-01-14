@@ -26,6 +26,13 @@ jobs:
         run: |     
           aptly repo show -with-packages zfs-backports-experimental
           find /home/runner/.aptly/public -name '*.deb'
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+      - name: list contents
+        shell: bash
+        run: |     
+          ls ./ -alt
   build:
     name: Building packages
     runs-on: ubuntu-18.04
