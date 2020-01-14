@@ -64,7 +64,7 @@ jobs:
               if folderPath == '.':
                       root = 'Root' 
               indexText = indexTextStart.format(folderPath=root)
-               for file in files:
+              for file in files:
                       #Avoiding index.html files
                       if file != 'index.html':
                               indexText += "\t\t<li>\n\t\t\t<a href='" + file + "'>" + file + "</a>\n\t\t</li>\n"
