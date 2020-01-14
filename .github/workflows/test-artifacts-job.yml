@@ -37,8 +37,7 @@ jobs:
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
           python - <<END
-          import os
-          
+          import os          
           indexTextStart = """<!DOCTYPE html>
           <html>
           <head><title>Index of {folderPath}</title></head>
@@ -52,7 +51,8 @@ jobs:
           """
           indexTextEnd = """ 
                   </ul>
-          $(date -Is)
+          <hr/>         
+          <p>Page created: $(date -Is)</p>
           </body>
           </html>
           """          
