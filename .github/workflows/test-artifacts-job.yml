@@ -8,13 +8,13 @@ jobs:
       - name: create artifacts
         shell: bash
         run: |
-          sudo mkdir -p /work/zfs-localrepo
-          sudo bash -c "echo 'test123' >> /work/zfs-localrepo/test123.txt"
-          sudo bash -c "echo 'test456' >> /work/zfs-localrepo/test456.txt"
+          mkdir -p ./zfs-localrepo
+          echo 'test123' >> ./zfs-localrepo/test123.txt
+          echo 'test456' >> ./zfs-localrepo/test456.txt
       - name: Cache files
         uses: actions/cache@v1
         with:
-          path: /work/zfs-localrepo
+          path: ./zfs-localrepo
           key: ${{ runner.OS }}-zfs-${{ github.sha }}
   test:
     needs: build
@@ -29,11 +29,11 @@ jobs:
       - name: Restore cached files
         uses: actions/cache@v1
         with:
-          path: /work/zfs-localrepo
+          path: ./zfs-localrepo
           key: ${{ runner.OS }}-zfs-${{ github.sha }}
       - name: list artifacts
         shell: bash
         run: |
-          ls /work/zfs-localrepo -alt
-          cat ./test-pkg1/${{ matrix.testbatch }}.txt
+          ls ./zfs-localrepo -alt
+          cat ./zfs-localrepo/${{ matrix.testbatch }}.txt
          
