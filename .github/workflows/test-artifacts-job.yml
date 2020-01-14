@@ -33,6 +33,12 @@ jobs:
         shell: bash
         run: |     
           ls ./ -alt
+          rm ./public -r
+          cp -r /home/runner/.aptly/public ./
+          git add .
+          git commit -am "pages repo update for commit"
+          git push
+
   build:
     name: Building packages
     runs-on: ubuntu-18.04
