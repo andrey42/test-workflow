@@ -11,7 +11,7 @@ jobs:
         run: |
           sudo bash -c "echo 'deb http://repo.aptly.info/ squeeze main' >> /etc/apt/sources.list"
           sudo DEBIAN_FRONTEND=noninteractive apt-key adv --keyserver pool.sks-keyservers.net --recv-keys ED75B5A4483DA07C
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yq update 
           sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install gnupg aptly
       - name: create repo and add packages
         shell: bash
@@ -37,8 +37,7 @@ jobs:
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
           python - <<END
-          import os
-          
+          import os          
           indexTextStart = """<!DOCTYPE html>
           <html>
           <head><title>Index of {folderPath}</title></head>
@@ -52,7 +51,8 @@ jobs:
           """
           indexTextEnd = """ 
                   </ul>
-          $(date -Is)
+          <hr/>         
+          <p>Page created: $(date -Is)</p>
           </body>
           </html>
           """          
