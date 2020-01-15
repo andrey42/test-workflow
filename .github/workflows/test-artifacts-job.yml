@@ -36,6 +36,7 @@ jobs:
           ls ./ -alt
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
+          sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2 /" ./index.html
           python - <<END
           import os          
           indexTextStart = """<!DOCTYPE html>
@@ -81,7 +82,7 @@ jobs:
           git config --global user.name "Andrey Prokopenko"
           git add --all .
           git commit --amend --no-edit
-          git push --force
+          git push
   build:
     name: Building packages
     runs-on: ubuntu-18.04
