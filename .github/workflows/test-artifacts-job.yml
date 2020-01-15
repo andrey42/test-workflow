@@ -78,8 +78,8 @@ jobs:
               index.write(indexText)
           index_folder('./public')
           END
-          git config --global user.email "job@terem.fr"
-          git config --global user.name "Andrey Prokopenko"
+          git config --global user.email "$(git log -n 1 --format=format:%ae)"
+          git config --global user.name "$(git log -n 1 --format=format:%an)"
           git add .
           git commit -am "pages update"
           git push
