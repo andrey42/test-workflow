@@ -81,7 +81,7 @@ jobs:
           git config --global user.email "job@terem.fr"
           git config --global user.name "Andrey Prokopenko"
           git add --all .
-          git commit --amend --no-edit
+          git commit -am "pages update"
           git push
   build:
     name: Building packages
