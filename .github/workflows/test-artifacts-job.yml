@@ -36,6 +36,7 @@ jobs:
           ls ./ -alt
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
+          export PAGE_FOOTER_DATE_TAG=$(date -Is)
           sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2 /" ./index.html
           python - <<END
           import os          
@@ -53,7 +54,7 @@ jobs:
           indexTextEnd = """ 
                   </ul>
           <hr/>         
-          <p>Page created: $(date -Is)</p>
+          <p>Page created: ${PAGE_FOOTER_DATE_TAG}</p>
           </body>
           </html>
           """          
