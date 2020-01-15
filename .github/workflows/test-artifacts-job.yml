@@ -80,10 +80,10 @@ jobs:
           END
           git config --global user.email "$(git log -n 1 --format=format:%ae)"
           git config --global user.name "$(git log -n 1 --format=format:%an)"
-          git add .
-          git commit -am "pages update1"
           sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2/" ./index.html 
-          git commit -am "pages update2"
+          git add .          
+          git commit -am "pages update"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git"
           git push
   build:
     name: Building packages
