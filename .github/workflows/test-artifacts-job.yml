@@ -33,6 +33,7 @@ jobs:
       - name: push changes
         shell: bash
         run: |2
+          sudo timedatectl set-timezone Europe/Vienna
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
           export PAGE_FOOTER_DATE_TAG=$(date -Is)
