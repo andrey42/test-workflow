@@ -33,8 +33,6 @@ jobs:
       - name: push changes
         shell: bash
         run: |2
-          git checkout gh-pages
-          git pull
           ls ./ -alt
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
@@ -83,7 +81,7 @@ jobs:
           git config --global user.name "Andrey Prokopenko"
           git add --all .
           git commit --amend --no-edit
-          git push
+          git push --force
   build:
     name: Building packages
     runs-on: ubuntu-18.04
