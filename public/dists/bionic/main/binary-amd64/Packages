@@ -1,0 +1,31 @@
+Package: spl
+Priority: optional
+Section: contrib/metapackages
+Installed-Size: 61
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+Original-Maintainer: Debian ZFS on Linux maintainers <pkg-zfsonlinux-devel@alioth-lists.debian.net>
+Architecture: all
+Source: zfs-linux
+Version: 0.8.3-1terem5
+Suggests: zfs-test
+Filename: pool/main/z/zfs-linux/spl_0.8.3-1terem5_all.deb
+Size: 22532
+MD5sum: afc33e531a55c8135b729b302c9b753f
+SHA1: b66af9f8fb9e6b943df7d90bd9063ccb202d1fd2
+SHA256: b78e011048fbdaf8daa90e1000b7f3ac05acbe342ea27aa18ade6c2d7291c3ad
+SHA512: 53652e9a27b9b09a50807c92b1e5f35550d326bb0efc465d4db9f6447da13c9252a6adb2d24d69f0211609b99779364a546b0ecb93c2d5382dff4e8c75e0d7b7
+Description: Solaris Porting Layer user-space utilities for Linux (dummy)
+ The Solaris Porting Layer (SPL) is a Linux kernel module which provides
+ many of the Solaris kernel APIs. This shim layer makes it possible to
+ run Solaris kernel code in the Linux kernel with relatively minimal
+ modification. The Solaris Porting LAyer Tests (SPLAT) is a Linux kernel
+ module which provides a testing harness for the SPL module.
+ .
+ SPL can be particularly useful when you want to track upstream Illumos
+ (or any other OpenSolaris fork) development closely and don't want the
+ overhead of maintaining a large patch which converts Solaris primitives
+ to Linux primitives.
+ .
+ This is a transitional dummy package. It can safely be removed.
+Homepage: https://zfsonlinux.org/
+
