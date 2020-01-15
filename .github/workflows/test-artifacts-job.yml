@@ -33,6 +33,7 @@ jobs:
       - name: push changes
         shell: bash
         run: |2
+          git checkout gh-pages
           git pull
           ls ./ -alt
           rm ./public -r
