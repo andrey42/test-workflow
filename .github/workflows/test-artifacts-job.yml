@@ -32,8 +32,7 @@ jobs:
           ref: gh-pages
       - name: push changes
         shell: bash
-        run: |2
-          git config --global log.date local
+        run: |2          
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
           export PAGE_FOOTER_DATE_TAG=$(date -Is)          
@@ -81,13 +80,10 @@ jobs:
           git config --global user.email "$(git log -n 1 --format=format:%ae)"
           git config --global user.name "$(git log -n 1 --format=format:%an)"
           sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2/" ./index.html           
-      - name: Deploy
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: ./
-          SCRIPT_MODE: true
-        run: |
           rm -rf ./.git 
-          wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
-          bash ./entrypoint.sh        
+          git init
+          git checkout --orphan "gh-pages"
+          git remote add origin "https://x-access-token:${{ secrets.GITHUB_PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git"
+          git add --all
+          git commit -am "pages update"
+          git push origin --force "${remote_branch}"
