@@ -83,7 +83,7 @@ jobs:
           sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2/" ./index.html 
           git add .          
           git commit -am "pages update"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git
           git push
   build:
     name: Building packages
