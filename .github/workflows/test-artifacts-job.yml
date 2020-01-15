@@ -86,4 +86,4 @@ jobs:
           git remote add origin "https://x-access-token:${{ secrets.GITHUB_PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git"
           git add --all
           git commit -am "pages update"
-          git push origin --force "${remote_branch}"
+          git push origin --force
