@@ -33,8 +33,6 @@ jobs:
       - name: push changes
         shell: bash
         run: |2
-          git pull
-          ls ./ -alt
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
           export PAGE_FOOTER_DATE_TAG=$(date -Is)
@@ -82,7 +80,7 @@ jobs:
           END
           git config --global user.email "job@terem.fr"
           git config --global user.name "Andrey Prokopenko"
-          git add --all .
+          git add .
           git commit -am "pages update"
           git push
   build:
