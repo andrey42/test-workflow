@@ -36,8 +36,7 @@ jobs:
           git config --global log.date local
           rm ./public -r
           cp -r /home/runner/.aptly/public ./
-          export PAGE_FOOTER_DATE_TAG=$(date -Is)
-          sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2/" ./index.html 
+          export PAGE_FOOTER_DATE_TAG=$(date -Is)          
           python - <<END
           import os          
           indexTextStart = """<!DOCTYPE html>
@@ -82,7 +81,9 @@ jobs:
           git config --global user.email "$(git log -n 1 --format=format:%ae)"
           git config --global user.name "$(git log -n 1 --format=format:%an)"
           git add .
-          git commit -am "pages update"
+          git commit -am "pages update1"
+          sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2/" ./index.html 
+          git commit -am "pages update2"
           git push
   build:
     name: Building packages
