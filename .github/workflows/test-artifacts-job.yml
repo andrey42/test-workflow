@@ -80,45 +80,14 @@ jobs:
           END
           git config --global user.email "$(git log -n 1 --format=format:%ae)"
           git config --global user.name "$(git log -n 1 --format=format:%an)"
-          sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2/" ./index.html 
-          git add .          
-          git commit -am "pages update"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git
-          echo "https://x-access-token:123@github.com/${{ github.repository }}.git"
-          git push
-  build:
-    name: Building packages
-    runs-on: ubuntu-18.04
-    steps:
-      - name: create artifacts
-        shell: bash
+          sed -i -E "s/(<span class=\"datetag\">)[^<]*(<\/span>)/\1${PAGE_FOOTER_DATE_TAG}\2/" ./index.html           
+      - name: Deploy
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: ./
+          SCRIPT_MODE: true
         run: |
-          mkdir -p ./zfs-localrepo 
-          echo 'test123' >> ./zfs-localrepo/test123.txt
-          echo 'test456' >> ./zfs-localrepo/test456.txt
-      - name: Cache files
-        uses: actions/cache@v1
-        with:
-          path: ./zfs-localrepo
-          key: ${{ runner.OS }}-zfs-${{ github.sha }}
-  test:
-    needs: build
-    name: Testing packages
-    runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        testbatch:
-           - 'test123'
-           - 'test456'
-    steps:
-      - name: Restore cached files
-        uses: actions/cache@v1
-        with:
-          path: ./zfs-localrepo
-          key: ${{ runner.OS }}-zfs-${{ github.sha }}
-      - name: list artifacts
-        shell: bash
-        run: |
-          ls ./zfs-localrepo -alt
-          cat ./zfs-localrepo/${{ matrix.testbatch }}.txt
-         
+          rm -rf ./.git 
+          wget https://raw.githubusercontent.com/peaceiris/actions-gh-pages/v2/entrypoint.sh
+          bash ./entrypoint.sh        
