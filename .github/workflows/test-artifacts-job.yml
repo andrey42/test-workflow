@@ -84,6 +84,7 @@ jobs:
           git add .          
           git commit -am "pages update"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_PERSONAL_TOKEN }}@github.com/${{ github.repository }}.git
+          echo "https://x-access-token:123@github.com/${{ github.repository }}.git"
           git push
   build:
     name: Building packages
