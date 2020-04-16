@@ -8,4 +8,4 @@ jobs:
       - name: add module
         shell: bash
         run: |
-          sudo find / -name scsi_debug*.*
+          sudo ls -al /lib/modules/$(uname -r)/kernel/drivers/scsi/
