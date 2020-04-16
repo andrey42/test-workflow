@@ -12,3 +12,4 @@ jobs:
           sudo apt-cache search $(uname -r)
           sudo apt install -yq linux-modules-extra-$(uname -r)
           sudo find /lib -name scsi_debug*.*
+          sudo modprobe scsi_debug
