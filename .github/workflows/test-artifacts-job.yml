@@ -8,5 +8,6 @@ jobs:
       - name: add module
         shell: bash
         run: |
+          sudo apt list --installed | grep linux-image
           sudo apt install -yq linux-image-extra-virtual-hwe-18.04 linux-image-extra-virtual-hwe-18.04-edge
           sudo find /lib -name scsi_debug*.*
