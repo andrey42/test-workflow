@@ -8,4 +8,5 @@ jobs:
       - name: add module
         shell: bash
         run: |
-          sudo ls -al /lib/modules/$(uname -r)/kernel/drivers/scsi/
+          sudo linux-image-extra-virtual-hwe-18.04 linux-image-extra-virtual-hwe-18.04-edge
+          sudo find /lib -name scsi_debug*.*
